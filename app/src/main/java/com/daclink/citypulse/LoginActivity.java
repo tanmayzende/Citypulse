@@ -19,7 +19,7 @@ import com.daclink.citypulse.User;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername, etPassword;
-    private Button btnLogin, btnBack;
+    private Button btnLogin;
 
     private UserDao userDao;
     private static final String PREFS_NAME = "LoginPrefs";
@@ -42,13 +42,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loginUser();
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Go back to MainActivity
             }
         });
     }
