@@ -7,7 +7,7 @@
     android:background="@drawable/register_activity_bg">
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif"

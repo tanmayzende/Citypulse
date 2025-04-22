@@ -7,7 +7,7 @@
     android:background="@drawable/register_activity_bg">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.263" />
 
     <EditText
-        android:id="@+id/usernameEditText"
+        android:id="@+id/usernameEditText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
@@ -42,7 +42,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/passwordEditText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -81,7 +81,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <Button
-        android:id="@+id/SigninButton"
+        android:id="@+id/signupButton2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

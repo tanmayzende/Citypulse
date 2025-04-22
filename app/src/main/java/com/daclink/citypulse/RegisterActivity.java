@@ -16,7 +16,7 @@ import com.daclink.citypulse.AppDatabase;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etUsername, etPassword, etConfirmPassword;
-    private Button btnRegister, btnBack;
+    private Button btnRegister;
 
     private UserDao userDao;
 
@@ -29,10 +29,10 @@ public class RegisterActivity extends AppCompatActivity {
         userDao = AppDatabase.getInstance(this).userDao();
 
         // Initialize views
-        etUsername = findViewById(R.id.usernameEditText);
-        etPassword = findViewById(R.id.passwordEditText);
+        etUsername = findViewById(R.id.usernameEditText2);
+        etPassword = findViewById(R.id.passwordEditText2);
         etConfirmPassword = findViewById(R.id.confirmpasswordEditText);
-        btnRegister = findViewById(R.id.SigninButton);
+        btnRegister = findViewById(R.id.signupButton2);
 
 
         // Set click listeners
@@ -43,12 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void registerUser() {

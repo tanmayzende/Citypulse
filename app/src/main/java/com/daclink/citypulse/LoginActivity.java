@@ -33,9 +33,9 @@ public class LoginActivity extends AppCompatActivity {
         userDao = AppDatabase.getInstance(this).userDao();
 
         // Initialize views
-        etUsername = findViewById(R.id.usernameEditText);
-        etPassword = findViewById(R.id.passwordEditText);
-        btnLogin = findViewById(R.id.loginButton);
+        etUsername = findViewById(R.id.usernameEditText1);
+        etPassword = findViewById(R.id.passwordEditText1);
+        btnLogin = findViewById(R.id.loginButton2);
 
         // Set click listeners
         btnLogin.setOnClickListener(new View.OnClickListener() {
