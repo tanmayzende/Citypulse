@@ -1,4 +1,5 @@
 package com.daclink.citypulse;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnLogin, btnRegister;
-    private TextView textView22;
-
     private static final String PREFS_NAME = "LoginPrefs";
 
     @Override
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("isAdmin", settings.getBoolean("isAdmin", false));
             startActivity(intent);
             finish();
+            return;
         }
 
         // Set click listeners
