@@ -1,5 +1,6 @@
 package com.daclink.citypulse;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,16 +18,11 @@ import com.daclink.citypulse.network.RetrofitClient;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.content.Intent;
-
-
-public class EventsActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -43,24 +39,20 @@ public class EventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         errorTextView = findViewById(R.id.errorTextView);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String city = getIntent().getStringExtra("city");
-        //fetchEventsFromApi(city);
+        Intent intent = getIntent();
+        String city = intent.getStringExtra("city");
+        String category = intent.getStringExtra("category");
 
-        findViewById(R.id.btnConcerts).setOnClickListener(v -> launchCategory("Music"));
-        findViewById(R.id.btnSports).setOnClickListener(v -> launchCategory("Sports"));
-        findViewById(R.id.btnArts).setOnClickListener(v -> launchCategory("Arts & Theatre"));
-        findViewById(R.id.btnDining).setOnClickListener(v -> launchCategory("Food"));
-
+        fetchEvents(city, category);
     }
 
-    private void fetchEventsFromApi(String city) {
+    private void fetchEvents(String city, String category) {
         progressBar.setVisibility(View.VISIBLE);
 
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
-        Call<TicketmasterResponse> call = apiService.getEventsByCity(API_KEY, city, 10);
+        Call<TicketmasterResponse> call = apiService.getEventsByCategory(API_KEY, city, category, 10);
 
         call.enqueue(new Callback<TicketmasterResponse>() {
             @Override
@@ -72,15 +64,15 @@ public class EventsActivity extends AppCompatActivity {
                     adapter = new EventItemAdapter(events);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    showError("No events found or API error.");
+                    showError("No events found for " + category);
                 }
             }
 
             @Override
             public void onFailure(Call<TicketmasterResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                showError("Failed to fetch events: " + t.getMessage());
-                Log.e("EventsActivity", "API Failure", t);
+                showError("Failed to load events: " + t.getMessage());
+                Log.e("CategoryActivity", "API call failed", t);
             }
         });
     }
@@ -89,12 +81,4 @@ public class EventsActivity extends AppCompatActivity {
         errorTextView.setText(message);
         errorTextView.setVisibility(View.VISIBLE);
     }
-
-    private void launchCategory(String category) {
-        Intent intent = new Intent(EventsActivity.this, CategoryActivity.class);
-        intent.putExtra("city", getIntent().getStringExtra("city"));
-        intent.putExtra("category", category);
-        startActivity(intent);
-    }
-
 }

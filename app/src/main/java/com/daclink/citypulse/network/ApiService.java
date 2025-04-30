@@ -17,4 +17,12 @@ public interface ApiService {
             @Query("city") String city,
             @Query("size") int size
     );
+
+    @GET("discovery/v2/events.json")
+    Call<TicketmasterResponse> getEventsByCategory(
+            @Query("apikey") String apiKey,
+            @Query("city") String city,
+            @Query("classificationName") String category,
+            @Query("size") int size
+    );
 }
