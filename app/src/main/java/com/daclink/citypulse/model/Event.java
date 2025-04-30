@@ -1,4 +1,4 @@
-package model;
+package com.daclink.citypulse.model;
 
 public class Event {
     private String title;

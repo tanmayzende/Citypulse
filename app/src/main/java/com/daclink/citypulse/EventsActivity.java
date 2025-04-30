@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daclink.citypulse.model.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,7 @@ public class EventsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView errorTextView;
-    // Temporarily using a generic adapter to avoid build errors
-    private RecyclerView.Adapter<?> adapter;
+    private EventAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,33 +40,16 @@ public class EventsActivity extends AppCompatActivity {
     private void fetchMockEvents(String city) {
         progressBar.setVisibility(View.VISIBLE);
 
-        // Mock data until real API and adapter are added
-        List<String> mockEvents = new ArrayList<>();
-        mockEvents.add("Concert in " + city + " at Music Hall on 2025-05-01");
-        mockEvents.add("Art Exhibition at City Gallery on 2025-05-03");
-        mockEvents.add("Food Festival at Downtown Plaza on 2025-05-05");
+        // Mock data
+        List<Event> mockEvents = new ArrayList<>();
+        mockEvents.add(new Event("Concert in " + city, "Music Hall", "2025-05-01"));
+        mockEvents.add(new Event("Art Exhibition", "City Gallery", "2025-05-03"));
+        mockEvents.add(new Event("Food Festival", "Downtown Plaza", "2025-05-05"));
 
         progressBar.setVisibility(View.GONE);
 
         if (!mockEvents.isEmpty()) {
-            adapter = new RecyclerView.Adapter<>() {
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
-                    TextView tv = new TextView(parent.getContext());
-                    return new RecyclerView.ViewHolder(tv) {
-                    };
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                    ((TextView) holder.itemView).setText(mockEvents.get(position));
-                }
-
-                @Override
-                public int getItemCount() {
-                    return mockEvents.size();
-                }
-            };
+            adapter = new EventAdapter(mockEvents);
             recyclerView.setAdapter(adapter);
         } else {
             showError("No events found for " + city);

@@ -53,12 +53,16 @@ public class LandingActivity extends AppCompatActivity {
         ImageButton buttonLasVegas = findViewById(R.id.button3);
         ImageButton buttonLosAngeles = findViewById(R.id.button4);
 
-        buttonMiami.setOnClickListener(view -> showToast("Miami"));
-        buttonNewYork.setOnClickListener(view -> showToast("New York"));
-        buttonLasVegas.setOnClickListener(view -> showToast("Las Vegas"));
-        buttonLosAngeles.setOnClickListener(view -> showToast("Los Angeles"));
+        buttonMiami.setOnClickListener(view -> launchEvents("Miami"));
+        buttonNewYork.setOnClickListener(view -> launchEvents("New York"));
+        buttonLasVegas.setOnClickListener(view -> launchEvents("Las Vegas"));
+        buttonLosAngeles.setOnClickListener(view -> launchEvents("Los Angeles"));
     }
-
+    private void launchEvents(String cityName) {
+        Intent intent = new Intent(LandingActivity.this, EventsActivity.class);
+        intent.putExtra("city", cityName);
+        startActivity(intent);
+    }
     private void showToast(String cityName) {
         Toast.makeText(this, "Selected: " + cityName, Toast.LENGTH_SHORT).show();
     }
