@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/white_rounded_box"
         android:hint="Username"
-        android:hintTextColor="#888888"
+        android:textColorHint="#888888"
         android:inputType="text"
         android:minHeight="48dp"
         android:padding="12dp"
@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="200dp"
+        android:layout_marginTop="200dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.518"
         app:layout_constraintWidth_percent="0.8" />
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/white_rounded_box"
         android:hint="Password"
-        android:hintTextColor="#888888"
+        android:textColorHint="#888888"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:padding="12dp"
@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText"
         app:layout_constraintVertical_bias="0.039"
         app:layout_constraintWidth_percent="0.8" />
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="24dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.686"
         app:layout_constraintWidth_percent="0.8" />
@@ -90,7 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/loginButton"
         app:layout_constraintVertical_bias="0.368"
         app:layout_constraintWidth_percent="0.8" />
