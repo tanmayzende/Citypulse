@@ -10,17 +10,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daclink.citypulse.model.Event;
+import com.daclink.citypulse.model.EventItem;
+import com.daclink.citypulse.model.TicketmasterResponse;
+import com.daclink.citypulse.network.ApiService;
+import com.daclink.citypulse.network.RetrofitClient;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private TextView errorTextView;
-    private EventAdapter adapter;
+    private EventItemAdapter adapter;
+
+    private static final String API_KEY = "A1igDbj4DxNkXX0VGnIb8YXKhEROppl7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +44,36 @@ public class EventsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         String city = getIntent().getStringExtra("city");
-        fetchMockEvents(city);
+        fetchEventsFromApi(city);
     }
 
-    private void fetchMockEvents(String city) {
+    private void fetchEventsFromApi(String city) {
         progressBar.setVisibility(View.VISIBLE);
 
-        // Mock data
-        List<Event> mockEvents = new ArrayList<>();
-        mockEvents.add(new Event("Concert in " + city, "Music Hall", "2025-05-01"));
-        mockEvents.add(new Event("Art Exhibition", "City Gallery", "2025-05-03"));
-        mockEvents.add(new Event("Food Festival", "Downtown Plaza", "2025-05-05"));
+        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        Call<TicketmasterResponse> call = apiService.getEventsByCity(API_KEY, city, 10);
 
-        progressBar.setVisibility(View.GONE);
+        call.enqueue(new Callback<TicketmasterResponse>() {
+            @Override
+            public void onResponse(Call<TicketmasterResponse> call, Response<TicketmasterResponse> response) {
+                progressBar.setVisibility(View.GONE);
 
-        if (!mockEvents.isEmpty()) {
-            adapter = new EventAdapter(mockEvents);
-            recyclerView.setAdapter(adapter);
-        } else {
-            showError("No events found for " + city);
-        }
+                if (response.isSuccessful() && response.body() != null && response.body().getEvents() != null) {
+                    List<EventItem> events = response.body().getEvents();
+                    adapter = new EventItemAdapter(events);
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    showError("No events found or API error.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TicketmasterResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                showError("Failed to fetch events: " + t.getMessage());
+                Log.e("EventsActivity", "API Failure", t);
+            }
+        });
     }
 
     private void showError(String message) {
