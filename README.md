@@ -1,4 +1,4 @@
-# ElitEscape
+# City Pulse
 Lifestyle Travel App 
 
 CityPulse is an Android application that curates exclusive and 
