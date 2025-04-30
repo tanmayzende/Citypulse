@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CityPulse</string>
+    <string name="error_loading_events">Error loading events</string>
 </resources>
