@@ -1,22 +1,22 @@
 package com.daclink.citypulse;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.daclink.citypulse.databinding.ActivityLandingBinding;
+import com.daclink.citypulse.databinding.ActivityInfoOfBinding;
 
 public class InfoOfActivity extends AppCompatActivity {
     private boolean isWishListPage;
 
+    private ActivityInfoOfBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityInfoOfBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_info_of);
+
+        binding.activityTextView.setText("example");
         // get title of Activity from database
         // replace title in textView
         // get image of Activity from database
