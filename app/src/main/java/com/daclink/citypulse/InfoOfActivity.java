@@ -17,6 +17,11 @@ public class InfoOfActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_of);
-
+        // get title of Activity from database
+        // replace title in textView
+        // get image of Activity from database
+        // add image in imageView
+        // if wishlist Button clicked, add in wishlist's user <= change users database?
+        // if in wishlist, hide wishlist Button
     }
 }
