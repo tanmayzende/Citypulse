@@ -16,8 +16,6 @@ import com.daclink.citypulse.database.Activities;
 import com.daclink.citypulse.database.ActivitiesDAO;
 import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.CachedEventDao;
-import com.daclink.citypulse.model.EventItem;
-
 
 @Database(entities = {User.class, CachedEvent.class, Activities.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

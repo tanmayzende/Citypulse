@@ -12,7 +12,7 @@
         android:id="@+id/eventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event Title"
+        android:text="@string/event_title"
         android:textStyle="bold"
         android:textSize="18sp" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/eventLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location"
+        android:text="@string/location"
         android:textSize="14sp"
         android:textColor="#444" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/eventDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date"
+        android:text="@string/date"
         android:textSize="14sp"
         android:textColor="#888" />
 

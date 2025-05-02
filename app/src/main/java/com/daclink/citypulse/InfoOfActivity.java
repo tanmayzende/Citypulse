@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daclink.citypulse.databinding.ActivityInfoOfBinding;
 
 public class InfoOfActivity extends AppCompatActivity {
-    private boolean isWishListPage;
 
     private ActivityInfoOfBinding binding;
 

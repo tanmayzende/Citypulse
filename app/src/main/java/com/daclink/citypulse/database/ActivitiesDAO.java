@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.daclink.citypulse.model.CachedEvent;
-import com.daclink.citypulse.model.EventItem;
 
 import java.util.List;
 @Dao

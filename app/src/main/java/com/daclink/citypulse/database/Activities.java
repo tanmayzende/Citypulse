@@ -4,10 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.EventItem;
-
-import java.util.Objects;
 
 @Entity(tableName = "Activities")
 public class Activities {

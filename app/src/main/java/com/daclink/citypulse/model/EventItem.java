@@ -1,8 +1,5 @@
 package com.daclink.citypulse.model;
 
-import android.content.Context;
-
-import com.daclink.citypulse.AppDatabase;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
