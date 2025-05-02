@@ -31,7 +31,10 @@ public class CachedEvent {
     @ColumnInfo(name = "image_url")
     private String imageUrl;
 
-    public CachedEvent(String apiId, String title, String date, String venue, String city, String category, String imageUrl) {
+    @ColumnInfo(name = "wishlisted")
+    private boolean wishlisted;
+
+    public CachedEvent(String apiId, String title, String date, String venue, String city, String category, String imageUrl, boolean wishlisted) {
         this.apiId = apiId;
         this.title = title;
         this.date = date;
@@ -39,6 +42,7 @@ public class CachedEvent {
         this.city = city;
         this.category = category;
         this.imageUrl = imageUrl;
+        this.wishlisted = wishlisted;
     }
 
     public int getId() { return id; }
@@ -51,4 +55,5 @@ public class CachedEvent {
     public String getCity() { return city; }
     public String getCategory() { return category; }
     public String getImageUrl() { return imageUrl; }
+    public boolean isWishlisted() { return wishlisted;}
 }

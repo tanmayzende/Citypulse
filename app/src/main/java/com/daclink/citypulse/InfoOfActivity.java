@@ -16,6 +16,7 @@ public class InfoOfActivity extends AppCompatActivity {
         binding = ActivityInfoOfBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_info_of);
 
+
         binding.activityTextView.setText("example");
         // get title of Activity from database
         // replace title in textView

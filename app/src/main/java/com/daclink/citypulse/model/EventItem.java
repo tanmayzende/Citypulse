@@ -20,6 +20,9 @@ public class EventItem {
     @SerializedName("images")
     private List<Image> images;
 
+    @SerializedName("whislist")
+    private boolean wishlist;
+
     public String getId() {
         return id;
     }

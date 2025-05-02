@@ -109,7 +109,8 @@ public class CategoryActivity extends AppCompatActivity {
                 e.getVenueName(),
                 city,
                 category,
-                e.getImageUrl()
+                e.getImageUrl(),
+                false
         );
     }
 }

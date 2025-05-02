@@ -31,4 +31,13 @@
         android:text="Date"
         android:textSize="14sp"
         android:textColor="#888" />
+
+    <ImageButton
+        android:id="@+id/btnWishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/btn_star_big_off"
+        android:contentDescription="@string/add_to_wishlist"
+        />
 </LinearLayout>
