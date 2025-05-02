@@ -1,6 +1,7 @@
 package com.daclink.citypulse;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daclink.citypulse.model.EventItem;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.EventViewHolder> {
 
     private final List<EventItem> events;
+
+    Context context;
 
     public EventItemAdapter(List<EventItem> events) {
         this.events = events;
@@ -25,7 +29,8 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        context = parent.getContext();
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_event, parent, false);
         return new EventViewHolder(view);
     }
@@ -49,6 +54,10 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
             public void onClick(View v) {
                 boolean currentState = event.isWishlist();
                 event.setWishlist(!currentState);
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    AppDatabase db = AppDatabase.getInstance(v.getContext());
+                    db.cachedEventDao().setWishlistEvent(event.getId(), !currentState);
+                });
                 notifyItemChanged(position);
             }
         });

@@ -1,5 +1,8 @@
 package com.daclink.citypulse.model;
 
+import android.content.Context;
+
+import com.daclink.citypulse.AppDatabase;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
@@ -20,15 +23,15 @@ public class EventItem {
     @SerializedName("images")
     private List<Image> images;
 
-    @SerializedName("whislist")
+    @SerializedName("wishlist")
     private boolean wishlist;
 
     public boolean isWishlist() {
         return wishlist;
     }
 
-    public void setWishlist(boolean wishlist) {
-        this.wishlist = wishlist;
+    public void setWishlist(boolean newWishlistStatus) {
+        this.wishlist = newWishlistStatus;
     }
 
     public String getId() {
