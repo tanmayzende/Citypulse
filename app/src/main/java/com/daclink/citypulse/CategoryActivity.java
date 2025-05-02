@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.EventItem;
 import com.daclink.citypulse.model.TicketmasterResponse;
 import com.daclink.citypulse.network.ApiService;
 import com.daclink.citypulse.network.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -61,12 +63,29 @@ public class CategoryActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null && response.body().getEvents() != null) {
                     List<EventItem> events = response.body().getEvents();
+                    Log.d("CategoryActivity", "API call succeeded");
+                    Log.d("CategoryActivity", "Number of events: " + events.size());
+
                     adapter = new EventItemAdapter(events);
                     recyclerView.setAdapter(adapter);
+
+                    List<CachedEvent> toCache = new ArrayList<>();
+                    for (EventItem e : events) {
+                        toCache.add(fromEventItem(e, city, category));
+                    }
+
+                    // 🔧 Move database operations off the main thread
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
+                        db.cachedEventDao().deleteEventsForCityAndCategory(city, category);
+                        db.cachedEventDao().insertAll(toCache);
+                    });
+
                 } else {
                     showError("No events found for " + category);
                 }
             }
+
 
             @Override
             public void onFailure(Call<TicketmasterResponse> call, Throwable t) {
@@ -80,5 +99,17 @@ public class CategoryActivity extends AppCompatActivity {
     private void showError(String message) {
         errorTextView.setText(message);
         errorTextView.setVisibility(View.VISIBLE);
+    }
+
+    private CachedEvent fromEventItem(EventItem e, String city, String category) {
+        return new CachedEvent(
+                e.getId() != null ? e.getId() : "",
+                e.getName() != null ? e.getName() : "Untitled",
+                e.getLocalDate(),
+                e.getVenueName(),
+                city,
+                category,
+                e.getImageUrl()
+        );
     }
 }

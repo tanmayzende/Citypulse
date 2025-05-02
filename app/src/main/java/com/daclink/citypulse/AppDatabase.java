@@ -12,9 +12,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.daclink.citypulse.model.CachedEvent;
+import com.daclink.citypulse.model.CachedEventDao;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+
+@Database(entities = {User.class, CachedEvent.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
+
+    public abstract CachedEventDao cachedEventDao();
+
     private static final String DATABASE_NAME = "citypulse_database";
     private static volatile AppDatabase instance;
 

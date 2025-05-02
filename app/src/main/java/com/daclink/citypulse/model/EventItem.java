@@ -1,8 +1,13 @@
 package com.daclink.citypulse.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class EventItem {
+
+    @SerializedName("id")
+    private String id;
+
     @SerializedName("name")
     private String name;
 
@@ -11,6 +16,13 @@ public class EventItem {
 
     @SerializedName("_embedded")
     private EmbeddedVenues embeddedVenues;
+
+    @SerializedName("images")
+    private List<Image> images;
+
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -30,7 +42,16 @@ public class EventItem {
         return "Unknown venue";
     }
 
+    public String getImageUrl() {
+        if (images != null && !images.isEmpty()) {
+            return images.get(0).url;
+        }
+        return null;
+    }
+
+    // Nested Classes
     private static class Dates {
+        @SerializedName("start")
         Start start;
 
         private static class Start {
@@ -44,11 +65,16 @@ public class EventItem {
 
     private static class EmbeddedVenues {
         @SerializedName("venues")
-        java.util.List<Venue> venues;
+        List<Venue> venues;
 
         private static class Venue {
             @SerializedName("name")
             String name;
         }
+    }
+
+    private static class Image {
+        @SerializedName("url")
+        String url;
     }
 }
