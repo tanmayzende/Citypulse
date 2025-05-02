@@ -66,7 +66,7 @@ public class CategoryActivity extends AppCompatActivity {
                     Log.d("CategoryActivity", "API call succeeded");
                     Log.d("CategoryActivity", "Number of events: " + events.size());
 
-                    adapter = new EventItemAdapter(events);
+                    adapter = new EventItemAdapter(events, city, category);
                     recyclerView.setAdapter(adapter);
 
                     List<CachedEvent> toCache = new ArrayList<>();

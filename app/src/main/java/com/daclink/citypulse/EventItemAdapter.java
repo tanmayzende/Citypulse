@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daclink.citypulse.database.Activities;
+import com.daclink.citypulse.database.ActivitiesDAO;
+import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.EventItem;
 
 import java.util.List;
@@ -20,17 +23,19 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
 
     private final List<EventItem> events;
 
-    Context context;
+    private String city;
+    private String category;
 
-    public EventItemAdapter(List<EventItem> events) {
+    public EventItemAdapter(List<EventItem> events, String city, String category) {
         this.events = events;
+        this.city = city;
+        this.category = category;
     }
 
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event, parent, false);
         return new EventViewHolder(view);
     }
@@ -53,11 +58,18 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
             @Override
             public void onClick(View v) {
                 boolean currentState = event.isWishlist();
+                if (!currentState){
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        AppDatabase db = AppDatabase.getInstance(v.getContext());
+                        db.activitiesDAO().insert(fromEventItem(event, city, category));
+                    });
+                } else{
+                    AppDatabase.databaseWriteExecutor.execute(() -> {
+                        AppDatabase db = AppDatabase.getInstance(v.getContext());
+                        db.activitiesDAO().deleteEvent(event.getId());
+                    });
+                }
                 event.setWishlist(!currentState);
-                AppDatabase.databaseWriteExecutor.execute(() -> {
-                    AppDatabase db = AppDatabase.getInstance(v.getContext());
-                    db.cachedEventDao().setWishlistEvent(event.getId(), !currentState);
-                });
                 notifyItemChanged(position);
             }
         });
@@ -80,5 +92,17 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
             dateTextView = itemView.findViewById(R.id.eventDate);
             btnWishlist = itemView.findViewById(R.id.btnWishlist);
         }
+    }
+    private Activities fromEventItem(EventItem e, String city, String category) {
+        return new Activities(
+                e.getId() != null ? e.getId() : "",
+                e.getName() != null ? e.getName() : "Untitled",
+                e.getLocalDate(),
+                e.getVenueName(),
+                city,
+                category,
+                e.getImageUrl(),
+                false
+        );
     }
 }
