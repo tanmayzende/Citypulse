@@ -54,6 +54,7 @@ public class EventsActivity extends AppCompatActivity {
         findViewById(R.id.btnArts).setOnClickListener(v -> launchCategory("Arts & Theatre"));
         findViewById(R.id.btnDining).setOnClickListener(v -> launchCategory("Food"));
 
+        
     }
 
     private void fetchEventsFromApi(String city) {

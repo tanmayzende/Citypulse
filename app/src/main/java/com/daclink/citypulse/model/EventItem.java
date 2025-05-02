@@ -23,6 +23,14 @@ public class EventItem {
     @SerializedName("whislist")
     private boolean wishlist;
 
+    public boolean isWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(boolean wishlist) {
+        this.wishlist = wishlist;
+    }
+
     public String getId() {
         return id;
     }

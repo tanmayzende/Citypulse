@@ -1,8 +1,10 @@
 package com.daclink.citypulse;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,11 +31,27 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EventViewHolder holder, @SuppressLint("RecyclerView") int position) {
         EventItem event = events.get(position);
         holder.titleTextView.setText(event.getName());
         holder.venueTextView.setText(event.getVenueName());
         holder.dateTextView.setText(event.getLocalDate());
+
+        if (event.isWishlist()){
+            holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_on);
+        }
+        else {
+            holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_off);
+        }
+
+        holder.btnWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean currentState = event.isWishlist();
+                event.setWishlist(!currentState);
+                notifyItemChanged(position);
+            }
+        });
     }
 
     @Override
@@ -44,11 +62,14 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
     static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, venueTextView, dateTextView;
 
+        ImageButton btnWishlist;
+
         EventViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.eventTitle);
             venueTextView = itemView.findViewById(R.id.eventLocation);
             dateTextView = itemView.findViewById(R.id.eventDate);
+            btnWishlist = itemView.findViewById(R.id.btnWishlist);
         }
     }
 }
