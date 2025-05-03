@@ -60,17 +60,4 @@ public class Activities {
     public String getCategory() { return category; }
     public String getImageUrl() { return imageUrl; }
     public boolean isWishlisted() { return wishlisted;}
-
-    private Activities fromEventItem(EventItem e, String city, String category) {
-        return new Activities(
-                e.getId() != null ? e.getId() : "",
-                e.getName() != null ? e.getName() : "Untitled",
-                e.getLocalDate(),
-                e.getVenueName(),
-                city,
-                category,
-                e.getImageUrl(),
-                false
-        );
-    }
 }

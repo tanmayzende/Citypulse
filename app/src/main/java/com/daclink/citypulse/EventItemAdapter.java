@@ -27,6 +27,9 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
         this.city = city;
         this.category = category;
     }
+    public EventItemAdapter(List<EventItem> events) {
+        this.events = events;
+    }
 
     @NonNull
     @Override
@@ -100,5 +103,10 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
                 e.getImageUrl(),
                 false
         );
+    }
+
+    private EventItem toEventItem(Activities a){
+        EventItem e = new EventItem();
+        return new EventItem();
     }
 }

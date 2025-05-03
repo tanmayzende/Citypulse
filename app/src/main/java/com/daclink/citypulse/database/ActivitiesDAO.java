@@ -19,6 +19,9 @@ public interface ActivitiesDAO {
     @Query("SELECT * FROM activities WHERE city = :city AND category = :category")
     List<Activities> getEventsByCityAndCategory(String city, String category);
 
+    @Query("SELECT * FROM activities")
+    List<Activities> getAll();
+
     @Query("DELETE FROM activities WHERE city = :city AND category = :category")
     void deleteEventsForCityAndCategory(String city, String category);
 
