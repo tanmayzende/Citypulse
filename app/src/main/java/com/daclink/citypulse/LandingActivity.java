@@ -53,10 +53,22 @@ public class LandingActivity extends AppCompatActivity {
         ImageButton buttonLasVegas = findViewById(R.id.button3);
         ImageButton buttonLosAngeles = findViewById(R.id.button4);
 
+        // Wishlist selection
+        Button btnWishlist = findViewById(R.id.btnWishlist);
+
         buttonMiami.setOnClickListener(view -> launchEvents("Miami"));
         buttonNewYork.setOnClickListener(view -> launchEvents("New York"));
         buttonLasVegas.setOnClickListener(view -> launchEvents("Las Vegas"));
         buttonLosAngeles.setOnClickListener(view -> launchEvents("Los Angeles"));
+
+        btnWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LandingActivity.this, Wishlist.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
     private void launchEvents(String cityName) {
         Intent intent = new Intent(LandingActivity.this, EventsActivity.class);
