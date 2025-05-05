@@ -17,8 +17,6 @@ import com.daclink.citypulse.network.RetrofitClient;
 
 import java.util.List;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,9 +52,10 @@ public class EventsActivity extends AppCompatActivity {
         findViewById(R.id.btnArts).setOnClickListener(v -> launchCategory("Arts & Theatre"));
         findViewById(R.id.btnDining).setOnClickListener(v -> launchCategory("Food"));
 
+
     }
 
-    private void fetchEventsFromApi(String city) {
+    private void fetchEventsFromApi(String city, String category) {
         progressBar.setVisibility(View.VISIBLE);
 
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
@@ -69,7 +68,7 @@ public class EventsActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null && response.body().getEvents() != null) {
                     List<EventItem> events = response.body().getEvents();
-                    adapter = new EventItemAdapter(events);
+                    adapter = new EventItemAdapter(events, city, category);
                     recyclerView.setAdapter(adapter);
                 } else {
                     showError("No events found or API error.");

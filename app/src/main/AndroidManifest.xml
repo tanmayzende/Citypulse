@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CityPulse"
         tools:targetApi="31">
         <activity
+            android:name=".Wishlist"
+            android:exported="false" />
+        <activity
             android:name=".InfoOfActivity"
             android:exported="false" />
         <activity android:name=".CategoryActivity" />
