@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.daclink.citypulse.databinding.ActivityInfoOfBinding;
 
 public class InfoOfActivity extends AppCompatActivity {
-    private boolean isWishListPage;
 
     private ActivityInfoOfBinding binding;
 
@@ -15,6 +14,7 @@ public class InfoOfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInfoOfBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_info_of);
+
 
         binding.activityTextView.setText("example");
         // get title of Activity from database

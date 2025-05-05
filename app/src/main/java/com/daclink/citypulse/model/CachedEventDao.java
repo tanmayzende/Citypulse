@@ -21,4 +21,7 @@ public interface CachedEventDao {
 
     @Query("DELETE FROM cached_events")
     void clearAll();
+
+    @Query("UPDATE cached_events SET wishlisted= :newWishlistStatus WHERE api_id= :apiId")
+    void setWishlistEvent(String apiId, boolean newWishlistStatus);
 }

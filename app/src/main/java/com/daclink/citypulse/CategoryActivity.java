@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daclink.citypulse.database.Activities;
 import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.EventItem;
 import com.daclink.citypulse.model.TicketmasterResponse;
@@ -41,6 +42,7 @@ public class CategoryActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         errorTextView = findViewById(R.id.errorTextView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
@@ -66,13 +68,29 @@ public class CategoryActivity extends AppCompatActivity {
                     Log.d("CategoryActivity", "API call succeeded");
                     Log.d("CategoryActivity", "Number of events: " + events.size());
 
-                    adapter = new EventItemAdapter(events);
-                    recyclerView.setAdapter(adapter);
-
                     List<CachedEvent> toCache = new ArrayList<>();
                     for (EventItem e : events) {
-                        toCache.add(fromEventItem(e, city, category));
+                        CachedEvent ce = fromEventItem(e, city, category);
+                        AppDatabase.databaseWriteExecutor.execute(() -> {
+                            AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
+                            List<Activities> l = db.activitiesDAO().getAll();
+                            //Log.e("TAG", "l filled");
+                            if (l == null) return;
+                            //Log.e("TAG", "l not null");
+                            for (Activities a : l){
+                                if (a.getApiId().equals(ce.getApiId())) {
+                                    //Log.e("TAG", "a.getApiId().equals(e.getApiId())");
+                                    db.cachedEventDao().setWishlistEvent(ce.getApiId(), true);
+                                    //supposed to update wishlist stars when going back to category but android hates me
+                                }
+                            }
+                        });
+                        e.setWishlist(ce.isWishlisted());
+                        toCache.add(ce);
                     }
+                    adapter = new EventItemAdapter(events, city, category);
+                    recyclerView.setAdapter(adapter);
+
 
                     // 🔧 Move database operations off the main thread
                     AppDatabase.databaseWriteExecutor.execute(() -> {
@@ -109,7 +127,8 @@ public class CategoryActivity extends AppCompatActivity {
                 e.getVenueName(),
                 city,
                 category,
-                e.getImageUrl()
+                e.getImageUrl(),
+                false
         );
     }
 }
