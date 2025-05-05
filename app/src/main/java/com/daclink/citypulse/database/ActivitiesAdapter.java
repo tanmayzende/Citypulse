@@ -10,10 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daclink.citypulse.AppDatabase;
-import com.daclink.citypulse.EventItemAdapter;
 import com.daclink.citypulse.R;
-import com.daclink.citypulse.model.EventItem;
 
 import java.util.List;
 
