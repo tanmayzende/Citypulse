@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.RoomDatabase;
 
 import com.daclink.citypulse.database.Activities;
 import com.daclink.citypulse.model.EventItem;
@@ -45,11 +46,10 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
         holder.titleTextView.setText(event.getName());
         holder.venueTextView.setText(event.getVenueName());
         holder.dateTextView.setText(event.getLocalDate());
-
-        if (event.isWishlist()){
+        
+        if (event.isWishlist()) {
             holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_on);
-        }
-        else {
+        } else {
             holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_off);
         }
 
@@ -57,17 +57,14 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
             @Override
             public void onClick(View v) {
                 boolean currentState = event.isWishlist();
-                if (!currentState){
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase db = AppDatabase.getInstance(v.getContext());
+                AppDatabase db = AppDatabase.getInstance(v.getContext());
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    if (!currentState){
                         db.activitiesDAO().insert(fromEventItem(event, city, category));
-                    });
-                } else{
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase db = AppDatabase.getInstance(v.getContext());
+                    } else{
                         db.activitiesDAO().deleteEvent(event.getId());
-                    });
-                }
+                    }
+                });
                 event.setWishlist(!currentState);
                 notifyItemChanged(position);
             }
@@ -101,7 +98,7 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
                 city,
                 category,
                 e.getImageUrl(),
-                false
+                e.isWishlist()
         );
     }
 }

@@ -7,6 +7,8 @@ import androidx.room.Query;
 
 import com.daclink.citypulse.model.CachedEvent;
 
+import org.jspecify.annotations.Nullable;
+
 import java.util.List;
 @Dao
 public interface ActivitiesDAO {
@@ -16,14 +18,9 @@ public interface ActivitiesDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Activities events);
 
-    @Query("SELECT * FROM activities WHERE city = :city AND category = :category")
-    List<Activities> getEventsByCityAndCategory(String city, String category);
-
     @Query("SELECT * FROM activities")
-    List<Activities> getAll();
+    @Nullable List<Activities> getAll();
 
-    @Query("DELETE FROM activities WHERE city = :city AND category = :category")
-    void deleteEventsForCityAndCategory(String city, String category);
 
     @Query("DELETE FROM activities WHERE api_id = :id")
     void deleteEvent(String id);
@@ -31,8 +28,6 @@ public interface ActivitiesDAO {
     @Query("DELETE FROM activities")
     void clearAll();
 
-    @Query("SELECT * FROM activities WHERE wishlisted = :wishlisted")
-    List<CachedEvent> getWishlistedEvent(boolean wishlisted);
-    @Query("UPDATE activities SET wishlisted= :newWishlistStatus WHERE id = :id")
+    @Query("UPDATE activities SET wishlisted= :newWishlistStatus WHERE api_id = :id")
     void setWishlistEvent(String id, boolean newWishlistStatus);
 }

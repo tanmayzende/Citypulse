@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daclink.citypulse.database.Activities;
 import com.daclink.citypulse.model.CachedEvent;
 import com.daclink.citypulse.model.EventItem;
 import com.daclink.citypulse.model.TicketmasterResponse;
@@ -41,6 +42,7 @@ public class CategoryActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         errorTextView = findViewById(R.id.errorTextView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
@@ -71,8 +73,25 @@ public class CategoryActivity extends AppCompatActivity {
 
                     List<CachedEvent> toCache = new ArrayList<>();
                     for (EventItem e : events) {
-                        toCache.add(fromEventItem(e, city, category));
+                        CachedEvent ce = fromEventItem(e, city, category);
+                        //setWishlist(ce);
+                        AppDatabase.databaseWriteExecutor.execute(() -> {
+                            AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
+                            List<Activities> l = db.activitiesDAO().getAll();
+                            //Log.e("TAG", "l filled");
+                            if (l == null) return;
+                            //Log.e("TAG", "l not null");
+                            for (Activities a : l){
+                                if (a.getApiId().equals(ce.getApiId())) {
+                                    //Log.e("TAG", "a.getApiId().equals(e.getApiId())");
+                                    db.cachedEventDao().setWishlistEvent(ce.getApiId(), true);
+                                }
+                            }
+                        });
+                        e.setWishlist(ce.isWishlisted());
+                        toCache.add(ce);
                     }
+
 
                     // 🔧 Move database operations off the main thread
                     AppDatabase.databaseWriteExecutor.execute(() -> {
@@ -112,5 +131,21 @@ public class CategoryActivity extends AppCompatActivity {
                 e.getImageUrl(),
                 false
         );
+    }
+
+    private void setWishlist(CachedEvent e){
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
+            List<Activities> l = db.activitiesDAO().getAll();
+            Log.e("TAG", "l filled");
+            if (l == null) return;
+            Log.e("TAG", "l not null");
+            for (Activities a : l){
+                if (a.getApiId().equals(e.getApiId())) {
+                    Log.e("TAG", "a.getApiId().equals(e.getApiId())");
+                    db.cachedEventDao().setWishlistEvent(e.getApiId(), true);
+                }
+            }
+        });
     }
 }

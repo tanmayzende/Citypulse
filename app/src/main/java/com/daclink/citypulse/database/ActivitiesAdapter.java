@@ -47,31 +47,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Ac
         holder.venueTextView.setText(activity.getVenue());
         holder.dateTextView.setText(activity.getDates());
 
-        if (activity.isWishlisted()){
-            holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_on);
-        }
-        else {
-            holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_off);
-        }
-
-        holder.btnWishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean currentState = activity.isWishlisted();
-                if (!currentState){
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase db = AppDatabase.getInstance(v.getContext());
-                        db.activitiesDAO().insert(activity);
-                    });
-                } else{
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase db = AppDatabase.getInstance(v.getContext());
-                        db.activitiesDAO().deleteEvent(activity.getApiId());
-                    });
-                }
-                notifyItemChanged(position);
-            }
-        });
+        holder.btnWishlist.setVisibility(View.INVISIBLE);
     }
 
     @Override
