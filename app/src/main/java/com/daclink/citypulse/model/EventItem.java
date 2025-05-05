@@ -23,6 +23,15 @@ public class EventItem {
     @SerializedName("wishlist")
     private boolean wishlist;
 
+    public EventItem(String id, String name, Dates dates, EmbeddedVenues embeddedVenues, List<Image> images, boolean wishlist) {
+        this.id = id;
+        this.name = name;
+        this.dates = dates;
+        this.embeddedVenues = embeddedVenues;
+        this.images = images;
+        this.wishlist = wishlist;
+    }
+
     public boolean isWishlist() {
         return wishlist;
     }

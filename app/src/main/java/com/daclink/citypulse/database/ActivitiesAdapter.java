@@ -1,4 +1,4 @@
-package com.daclink.citypulse;
+package com.daclink.citypulse.database;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,43 +10,44 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.daclink.citypulse.database.Activities;
+import com.daclink.citypulse.AppDatabase;
+import com.daclink.citypulse.EventItemAdapter;
+import com.daclink.citypulse.R;
 import com.daclink.citypulse.model.EventItem;
 
 import java.util.List;
 
-public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.EventViewHolder> {
-
-    private final List<EventItem> events;
+public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.ActivityViewHolder>{
+    private final List<Activities> activities;
 
     private String city;
     private String category;
 
-    public EventItemAdapter(List<EventItem> events, String city, String category) {
-        this.events = events;
+    public ActivitiesAdapter(List<Activities> activities, String city, String category) {
+        this.activities = activities;
         this.city = city;
         this.category = category;
     }
-    public EventItemAdapter(List<EventItem> events) {
-        this.events = events;
+    public ActivitiesAdapter(List<Activities> activities) {
+        this.activities = activities;
     }
 
     @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event, parent, false);
-        return new EventViewHolder(view);
+        return new ActivityViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        EventItem event = events.get(position);
-        holder.titleTextView.setText(event.getName());
-        holder.venueTextView.setText(event.getVenueName());
-        holder.dateTextView.setText(event.getLocalDate());
+    public void onBindViewHolder(@NonNull ActivityViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        Activities activity = activities.get(position);
+        holder.titleTextView.setText(activity.getTitle());
+        holder.venueTextView.setText(activity.getVenue());
+        holder.dateTextView.setText(activity.getDates());
 
-        if (event.isWishlist()){
+        if (activity.isWishlisted()){
             holder.btnWishlist.setImageResource(android.R.drawable.btn_star_big_on);
         }
         else {
@@ -56,19 +57,18 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
         holder.btnWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean currentState = event.isWishlist();
+                boolean currentState = activity.isWishlisted();
                 if (!currentState){
                     AppDatabase.databaseWriteExecutor.execute(() -> {
                         AppDatabase db = AppDatabase.getInstance(v.getContext());
-                        db.activitiesDAO().insert(fromEventItem(event, city, category));
+                        db.activitiesDAO().insert(activity);
                     });
                 } else{
                     AppDatabase.databaseWriteExecutor.execute(() -> {
                         AppDatabase db = AppDatabase.getInstance(v.getContext());
-                        db.activitiesDAO().deleteEvent(event.getId());
+                        db.activitiesDAO().deleteEvent(activity.getApiId());
                     });
                 }
-                event.setWishlist(!currentState);
                 notifyItemChanged(position);
             }
         });
@@ -76,32 +76,20 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
 
     @Override
     public int getItemCount() { //
-        return events.size();
+        return activities.size();
     }
 
-    static class EventViewHolder extends RecyclerView.ViewHolder {
+    static class ActivityViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, venueTextView, dateTextView;
 
         ImageButton btnWishlist;
 
-        EventViewHolder(View itemView) {
+        ActivityViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.eventTitle);
             venueTextView = itemView.findViewById(R.id.eventLocation);
             dateTextView = itemView.findViewById(R.id.eventDate);
             btnWishlist = itemView.findViewById(R.id.btnWishlist);
         }
-    }
-    private Activities fromEventItem(EventItem e, String city, String category) {
-        return new Activities(
-                e.getId() != null ? e.getId() : "",
-                e.getName() != null ? e.getName() : "Untitled",
-                e.getLocalDate(),
-                e.getVenueName(),
-                city,
-                category,
-                e.getImageUrl(),
-                false
-        );
     }
 }

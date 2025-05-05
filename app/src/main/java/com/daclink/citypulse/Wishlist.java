@@ -7,15 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daclink.citypulse.database.Activities;
-import com.daclink.citypulse.database.ActivitiesDAO;
-import com.daclink.citypulse.model.EventItem;
+import com.daclink.citypulse.database.ActivitiesAdapter;
 
 import java.util.List;
 
 public class Wishlist extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private EventItemAdapter adapter;
+    private ActivitiesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +27,7 @@ public class Wishlist extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             AppDatabase db = AppDatabase.getInstance(getApplicationContext());
             List<Activities> activities = db.activitiesDAO().getAll();
-            List<EventItem> events = null;
-            for (Activities activity : activities){
-                // convert Activities to EventItem GLHF
-                // put event item in events variable
-            }
-            adapter = new EventItemAdapter(events);
+            adapter = new ActivitiesAdapter(activities);
             recyclerView.setAdapter(adapter);
         });
     }
