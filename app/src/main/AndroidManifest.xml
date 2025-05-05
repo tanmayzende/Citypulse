@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.daclink.citypulse">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CityPulse"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Wishlist"
+            android:exported="false" />
+        <activity
+            android:name=".InfoOfActivity"
+            android:exported="false" />
+        <activity android:name=".CategoryActivity" />
         <activity
             android:name=".InCityActivities"
             android:exported="false" />
@@ -25,22 +34,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".LandingActivity"
             android:exported="false" />
-
         <activity
             android:name=".AdminActivity"
             android:exported="false" />
+        <activity android:name=".EventsActivity" />
     </application>
 
 </manifest>

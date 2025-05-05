@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CityPulse</string>
+    <string name="error_loading_events">Error loading events</string>
+    <string name="title_of_activity">Title of Activity</string>
+    <string name="wishlist">WishList</string>
+    <string name="picture_of_activity">picture of activity</string>
+    <string name="add_to_wishlist">Add to wishlist</string>
+    <string name="date">Date</string>
+    <string name="location">Location</string>
+    <string name="event_title">Event Title</string>
 </resources>

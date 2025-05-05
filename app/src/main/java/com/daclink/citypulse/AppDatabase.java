@@ -12,9 +12,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.daclink.citypulse.database.Activities;
+import com.daclink.citypulse.database.ActivitiesDAO;
+import com.daclink.citypulse.model.CachedEvent;
+import com.daclink.citypulse.model.CachedEventDao;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, CachedEvent.class, Activities.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
+
+    public abstract CachedEventDao cachedEventDao();
+
+    public abstract ActivitiesDAO activitiesDAO();
+
     private static final String DATABASE_NAME = "citypulse_database";
     private static volatile AppDatabase instance;
 
@@ -33,8 +42,19 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     DATABASE_NAME)
                             .fallbackToDestructiveMigration()
-                            .addCallback(sRoomDatabaseCallback)
                             .build();
+                    //Added this to check if admin2 exists each time the app is run
+                    databaseWriteExecutor.execute(() -> {
+                        UserDao dao = instance.userDao();
+                        User existingAdmin = dao.getUserByUsername("admin2");
+                        if (existingAdmin == null) {
+                            User admin2 = new User("admin2", "admin2", true);
+                            dao.insertUser(admin2);
+                            Log.d("AppDatabase", "Inserted admin2 into DB.");
+                        } else {
+                            Log.d("AppDatabase", "admin2 already exists.");
+                        }
+                    });
                 }
             }
         }
