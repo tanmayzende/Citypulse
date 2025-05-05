@@ -132,20 +132,4 @@ public class CategoryActivity extends AppCompatActivity {
                 false
         );
     }
-
-    private void setWishlist(CachedEvent e){
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
-            List<Activities> l = db.activitiesDAO().getAll();
-            Log.e("TAG", "l filled");
-            if (l == null) return;
-            Log.e("TAG", "l not null");
-            for (Activities a : l){
-                if (a.getApiId().equals(e.getApiId())) {
-                    Log.e("TAG", "a.getApiId().equals(e.getApiId())");
-                    db.cachedEventDao().setWishlistEvent(e.getApiId(), true);
-                }
-            }
-        });
-    }
 }
