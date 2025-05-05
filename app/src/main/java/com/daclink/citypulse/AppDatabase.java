@@ -42,8 +42,19 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     DATABASE_NAME)
                             .fallbackToDestructiveMigration()
-                            .addCallback(sRoomDatabaseCallback)
                             .build();
+                    //Added this to check if admin2 exists each time the app is run
+                    databaseWriteExecutor.execute(() -> {
+                        UserDao dao = instance.userDao();
+                        User existingAdmin = dao.getUserByUsername("admin2");
+                        if (existingAdmin == null) {
+                            User admin2 = new User("admin2", "admin2", true);
+                            dao.insertUser(admin2);
+                            Log.d("AppDatabase", "Inserted admin2 into DB.");
+                        } else {
+                            Log.d("AppDatabase", "admin2 already exists.");
+                        }
+                    });
                 }
             }
         }
