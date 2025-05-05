@@ -40,7 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     DATABASE_NAME)
                             .fallbackToDestructiveMigration()
                             .build();
-
+                    //Added this to check if admin2 exists each time the app is run
                     databaseWriteExecutor.execute(() -> {
                         UserDao dao = instance.userDao();
                         User existingAdmin = dao.getUserByUsername("admin2");
