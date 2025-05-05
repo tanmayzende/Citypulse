@@ -21,6 +21,9 @@ public interface ActivitiesDAO {
     @Query("SELECT * FROM activities")
     @Nullable List<Activities> getAll();
 
+    @Query("SELECT * FROM activities WHERE api_id = :id")
+    List<Activities> getActivities(String id);
+
 
     @Query("DELETE FROM activities WHERE api_id = :id")
     void deleteEvent(String id);

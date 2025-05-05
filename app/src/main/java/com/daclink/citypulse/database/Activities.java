@@ -60,4 +60,8 @@ public class Activities {
     public String getCategory() { return category; }
     public String getImageUrl() { return imageUrl; }
     public boolean isWishlisted() { return wishlisted;}
+
+    public void setWishlisted(boolean wishlisted) {
+        this.wishlisted = wishlisted;
+    }
 }

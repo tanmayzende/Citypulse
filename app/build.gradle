@@ -45,6 +45,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation libs.gson
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.8.1' // For JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0' // JUnit 5 API
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
