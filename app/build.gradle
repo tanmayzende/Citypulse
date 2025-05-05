@@ -33,7 +33,12 @@ android {
 }
 
 dependencies {
-
+    implementation libs.firebase.firestore
+    androidTestImplementation libs.junit.v115
+    androidTestImplementation libs.core
+    androidTestImplementation libs.rules
+    androidTestImplementation libs.runner
+    androidTestImplementation libs.room.testing
     implementation libs.retrofit
     implementation libs.converter.gson
     implementation libs.appcompat
