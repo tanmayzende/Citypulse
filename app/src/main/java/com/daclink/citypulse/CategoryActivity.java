@@ -68,13 +68,9 @@ public class CategoryActivity extends AppCompatActivity {
                     Log.d("CategoryActivity", "API call succeeded");
                     Log.d("CategoryActivity", "Number of events: " + events.size());
 
-                    adapter = new EventItemAdapter(events, city, category);
-                    recyclerView.setAdapter(adapter);
-
                     List<CachedEvent> toCache = new ArrayList<>();
                     for (EventItem e : events) {
                         CachedEvent ce = fromEventItem(e, city, category);
-                        //setWishlist(ce);
                         AppDatabase.databaseWriteExecutor.execute(() -> {
                             AppDatabase db = AppDatabase.getInstance(CategoryActivity.this);
                             List<Activities> l = db.activitiesDAO().getAll();
@@ -85,12 +81,15 @@ public class CategoryActivity extends AppCompatActivity {
                                 if (a.getApiId().equals(ce.getApiId())) {
                                     //Log.e("TAG", "a.getApiId().equals(e.getApiId())");
                                     db.cachedEventDao().setWishlistEvent(ce.getApiId(), true);
+                                    //supposed to update wishlist stars when going back to category but android hates me
                                 }
                             }
                         });
                         e.setWishlist(ce.isWishlisted());
                         toCache.add(ce);
                     }
+                    adapter = new EventItemAdapter(events, city, category);
+                    recyclerView.setAdapter(adapter);
 
 
                     // 🔧 Move database operations off the main thread
