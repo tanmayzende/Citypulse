@@ -28,6 +28,11 @@ public interface ActivitiesDAO {
     @Query("DELETE FROM activities")
     void clearAll();
 
+    @Query("SELECT * FROM activities ORDER BY dates ASC")
+    List<Activities> sortDateAsc();
+    @Query("SELECT * FROM activities ORDER BY dates DESC")
+    List<Activities> sortDateDesc();
+
     @Query("UPDATE activities SET wishlisted= :newWishlistStatus WHERE api_id = :id")
     void setWishlistEvent(String id, boolean newWishlistStatus);
 }
