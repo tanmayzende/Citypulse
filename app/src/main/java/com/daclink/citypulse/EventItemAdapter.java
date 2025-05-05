@@ -24,9 +24,10 @@ public class EventItemAdapter extends RecyclerView.Adapter<EventItemAdapter.Even
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event, parent, false);
+                .inflate(R.layout.item_event_card, parent, false); // ⬅ NEW FILE HERE
         return new EventViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
