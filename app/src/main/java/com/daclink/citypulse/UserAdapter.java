@@ -56,6 +56,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         User user = filteredUserList.get(position);
         holder.usernameTextView.setText(user.getUsername());
 
+
+//        make sure admin is capable of deleting itself!
+        if (user.isAdmin()) {
+            holder.deleteButton.setVisibility(View.GONE);
+            return;
+        }
+
+        holder.usernameTextView.setText(user.getUsername());
         holder.deleteButton.setOnClickListener(v -> {
             AppDatabase.databaseWriteExecutor.execute(() -> {
                 userDao.delete(user);
@@ -87,9 +95,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
     public void updateList(List<User> newList) {
         fullUserList.clear();
-        fullUserList.addAll(newList);
-        filter(""); // reapply filter
+        for (User user : newList) {
+            if (!user.isAdmin()) {
+                fullUserList.add(user);
+            }
+        }
+        filter(""); // reapply current search
     }
+
 
 
 }

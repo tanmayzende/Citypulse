@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
@@ -56,8 +57,15 @@ public class AdminActivity extends AppCompatActivity {
     private void loadAllUsers() {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             List<User> users = userDao.getAllUsers();
+//            get rid of admins in the list - filter out
+            List<User> nonAdminUsers = new ArrayList<>();
+            for(User user : users){
+                if(!user.isAdmin()){
+                    nonAdminUsers.add(user);
+                }
+            }
             runOnUiThread(() -> {
-                userAdapter = new UserAdapter(users, userDao);
+                userAdapter = new UserAdapter(nonAdminUsers, userDao);
                 userRecyclerView.setAdapter(userAdapter);
             });
         });
