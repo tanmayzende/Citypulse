@@ -46,6 +46,8 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.room.common.jvm
+    implementation libs.glide
+    annotationProcessor libs.compiler
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
