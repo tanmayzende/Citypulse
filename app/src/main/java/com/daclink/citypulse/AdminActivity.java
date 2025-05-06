@@ -33,7 +33,7 @@ public class AdminActivity extends AppCompatActivity {
                 AppDatabase.databaseWriteExecutor.execute(() -> {
                     User user = userDao.getUserByUsername(username);
                     if (user != null) {
-                        userDao.deleteUser(user);
+                        userDao.delete(user);
                         runOnUiThread(() -> Toast.makeText(this, "User deleted", Toast.LENGTH_SHORT).show());
                     } else {
                         runOnUiThread(() -> Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show());
