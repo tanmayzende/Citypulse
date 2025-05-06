@@ -36,6 +36,11 @@ public class LandingActivity extends AppCompatActivity {
         Button adminButton = findViewById(R.id.AdminButton1);
         adminButton.setVisibility(isAdmin ? View.VISIBLE : View.INVISIBLE);
 
+        adminButton.setOnClickListener(view -> {
+            Intent intent = new Intent(LandingActivity.this, AdminActivity.class);
+            startActivity(intent);
+        });
+
         Button logoutButton = findViewById(R.id.LogoutButton1);
         logoutButton.setOnClickListener(view -> {
             SharedPreferences.Editor editor = prefs.edit();
