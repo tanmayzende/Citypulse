@@ -33,7 +33,14 @@ android {
 }
 
 dependencies {
-
+    implementation libs.firebase.firestore
+    androidTestImplementation libs.junit.v115
+    androidTestImplementation libs.core
+    androidTestImplementation libs.rules
+    androidTestImplementation libs.runner
+    androidTestImplementation libs.room.testing
+    implementation libs.retrofit
+    implementation libs.converter.gson
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -42,6 +49,10 @@ dependencies {
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation libs.gson
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.8.1' // For JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0' // JUnit 5 API
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

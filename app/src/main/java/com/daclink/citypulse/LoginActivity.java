@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 Log.e(TAG, "Error during database query for login", e);
+                Log.e("LoginActivity", "Database login error", e);
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Database error during login.", Toast.LENGTH_LONG).show());
             }
         });
