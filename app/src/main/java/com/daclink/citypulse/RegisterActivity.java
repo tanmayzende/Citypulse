@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             Log.d(TAG, "Username available. Inserting new user: " + username);
             User newUser = new User(username, password, false);
-            userDao.insertUser(newUser); //  Database insert on background thread
+            userDao.insert(newUser); //  Database insert on background thread
 
             // Show success message and finish on Main Thread AFTER successful insert
             runOnUiThread(() -> {
