@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/background4">
 
     <!-- Category Buttons -->
     <LinearLayout
@@ -20,28 +21,33 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Concerts" />
+            android:text="Concerts"
+            android:textSize="11sp"
+            />
 
         <Button
             android:id="@+id/btnSports"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sports" />
+            android:text="Sports"
+            android:textSize="11sp"/>
 
         <Button
             android:id="@+id/btnArts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Arts" />
+            android:text="Arts"
+            android:textSize="11sp"/>
 
         <Button
             android:id="@+id/btnDining"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Dining" />
+            android:text="Dining"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <!-- ProgressBar -->
