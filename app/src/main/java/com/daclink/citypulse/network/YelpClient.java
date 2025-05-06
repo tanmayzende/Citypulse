@@ -2,12 +2,9 @@ package com.daclink.citypulse.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class RetrofitClient {
-    private static final String BASE_URL = "https://app.ticketmaster.com/";
+public class YelpClient {
+    private static final String BASE_URL = "https://api.yelp.com/v3/";
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
@@ -20,10 +17,7 @@ public class RetrofitClient {
         return retrofit;
     }
 
-    public static Retrofit getYelpClient() {
-        return new Retrofit.Builder()
-                .baseUrl("https://api.yelp.com/v3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public static YelpApiService getYelpService() {
+        return getInstance().create(YelpApiService.class);
     }
 }

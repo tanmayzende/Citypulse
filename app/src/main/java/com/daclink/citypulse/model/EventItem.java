@@ -69,32 +69,77 @@ public class EventItem {
         return null;
     }
 
-    // Nested Classes
-    private static class Dates {
+    // Updated nested classes to be public static
+    public static class Dates {
         @SerializedName("start")
-        Start start;
+        public Start start;
 
-        private static class Start {
+        public Dates(String localDate) {
+            this.start = new Start(localDate);
+        }
+
+        public static class Start {
             @SerializedName("localDate")
-            String localDate;
+            public String localDate;
 
             @SerializedName("localTime")
-            String localTime;
+            public String localTime;
+
+            public Start(String date) {
+                this.localDate = date;
+                this.localTime = "";
+            }
         }
     }
 
-    private static class EmbeddedVenues {
+    public static class EmbeddedVenues {
         @SerializedName("venues")
-        List<Venue> venues;
+        public List<Venue> venues;
 
-        private static class Venue {
+        public EmbeddedVenues(String venueName) {
+            this.venues = List.of(new Venue(venueName));
+        }
+
+        public static class Venue {
             @SerializedName("name")
-            String name;
+            public String name;
+
+            public Venue(String name) {
+                this.name = name;
+            }
         }
     }
 
-    private static class Image {
+    public static class Image {
         @SerializedName("url")
-        String url;
+        public String url;
+
+        public Image(String url) {
+            this.url = url;
+        }
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate(String dateText) {
+        this.dates = new Dates(dateText);
+    }
+
+    public void setVenueName(String venueName) {
+        this.embeddedVenues = new EmbeddedVenues(venueName);
+    }
+
+    public void setVenueCity(String city) {
+        if (this.embeddedVenues != null && !this.embeddedVenues.venues.isEmpty()) {
+            this.embeddedVenues.venues.get(0).name += " - " + city;
+        } else {
+            this.embeddedVenues = new EmbeddedVenues(city);
+        }
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.images = List.of(new Image(imageUrl));
+    }
+
 }
