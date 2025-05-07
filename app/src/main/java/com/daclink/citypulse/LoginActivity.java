@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void attemptLogin(final String username, final String password) {
+    public void attemptLogin(final String username, final String password) {
         // Validate input fields first.
         if (TextUtils.isEmpty(username)) {
             etUsername.setError("Username is required");
